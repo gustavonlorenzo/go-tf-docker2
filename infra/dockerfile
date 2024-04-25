@@ -1,0 +1,13 @@
+# Use official PostgreSQL image from Docker Hub
+FROM postgres:latest
+
+# Environment variables
+ENV POSTGRES_DB=pets
+ENV POSTGRES_USER=pets_user
+ENV POSTGRES_PASSWORD=12345
+
+# Copy SQL script to initialize the database
+COPY init.sql /docker-entrypoint-initdb.d/
+
+# Expose PostgreSQL port
+EXPOSE 5432
