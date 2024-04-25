@@ -1,44 +1,4 @@
-2024-04-25T07:49:44.613-0500	[34mINFO[0m	go-tf-docker2/main.go:150	Initializing router.
-2024-04-25T07:56:46.522-0500	[34mINFO[0m	go-tf-docker2/main.go:150	Initializing router.
-2024-04-25T07:58:36.101-0500	[34mINFO[0m	go-tf-docker2/main.go:149	Initializing router.
-2024-04-25T07:59:26.944-0500	[34mINFO[0m	go-tf-docker2/main.go:149	Initializing router.
-2024-04-25T08:05:59.295-0500	[34mINFO[0m	go-tf-docker2/main.go:149	Initializing router.
-2024-04-25T08:14:13.986-0500	[34mINFO[0m	go-tf-docker2/main.go:149	Initializing router.
-2024-04-25T08:26:05.991-0500	[34mINFO[0m	go-tf-docker2/main.go:149	Initializing router.
-2024-04-25T08:36:10.307-0500	[34mINFO[0m	go-tf-docker2/main.go:149	Initializing router.
-2024-04-25T08:38:07.467-0500	[34mINFO[0m	go-tf-docker2/main.go:149	Initializing router.
-2024-04-25T08:40:35.062-0500	[34mINFO[0m	go-tf-docker2/main.go:149	Initializing router.
-2024-04-25T08:44:45.111-0500	[34mINFO[0m	go-tf-docker2/main.go:151	Initializing router.
-2024-04-25T08:48:11.100-0500	[34mINFO[0m	go-tf-docker2/main.go:151	Initializing router.
-2024-04-25T08:52:32.089-0500	[34mINFO[0m	go-tf-docker2/main.go:151	Initializing router.
-2024-04-25T10:07:00.962-0500	[34mINFO[0m	go-tf-docker2/main.go:160	Initializing router.
-2024-04-25T10:07:26.455-0500	[34mINFO[0m	go-tf-docker2/main.go:98	Establishing connection to PG.
-2024-04-25T10:07:26.464-0500	[34mINFO[0m	go-tf-docker2/main.go:120	successfully created record.
-2024-04-25T10:07:26.464-0500	[31mERROR[0m	zap@v1.27.0/sugar.go:257	Ignored key without a value.	{"ignored": {"name":"woofy2","age":33,"species":"dorg"}}
-go.uber.org/zap.(*SugaredLogger).Infow
-	/home/glorenzo/go/pkg/mod/go.uber.org/zap@v1.27.0/sugar.go:257
-main.addRecord
-	/home/glorenzo/git/personal/go-tf-docker2/main.go:121
-github.com/gin-gonic/gin.(*Context).Next
-	/home/glorenzo/go/pkg/mod/github.com/gin-gonic/gin@v1.9.1/context.go:174
-github.com/gin-gonic/gin.CustomRecoveryWithWriter.func1
-	/home/glorenzo/go/pkg/mod/github.com/gin-gonic/gin@v1.9.1/recovery.go:102
-github.com/gin-gonic/gin.(*Context).Next
-	/home/glorenzo/go/pkg/mod/github.com/gin-gonic/gin@v1.9.1/context.go:174
-github.com/gin-gonic/gin.LoggerWithConfig.func1
-	/home/glorenzo/go/pkg/mod/github.com/gin-gonic/gin@v1.9.1/logger.go:240
-github.com/gin-gonic/gin.(*Context).Next
-	/home/glorenzo/go/pkg/mod/github.com/gin-gonic/gin@v1.9.1/context.go:174
-github.com/gin-gonic/gin.(*Engine).handleHTTPRequest
-	/home/glorenzo/go/pkg/mod/github.com/gin-gonic/gin@v1.9.1/gin.go:620
-github.com/gin-gonic/gin.(*Engine).ServeHTTP
-	/home/glorenzo/go/pkg/mod/github.com/gin-gonic/gin@v1.9.1/gin.go:576
-net/http.serverHandler.ServeHTTP
-	/usr/local/go/src/net/http/server.go:3137
-net/http.(*conn).serve
-	/usr/local/go/src/net/http/server.go:2039
-2024-04-25T10:07:26.464-0500	[34mINFO[0m	go-tf-docker2/main.go:121	 
-2024-04-25T11:51:38.783-0500	[34mINFO[0m	go-tf-docker2/main.go:159	Initializing router.
-2024-04-25T11:51:57.868-0500	[34mINFO[0m	go-tf-docker2/main.go:98	Establishing connection to PG.
-2024-04-25T11:51:57.877-0500	[34mINFO[0m	go-tf-docker2/main.go:120	successfully created record.
-2024-04-25T11:52:13.695-0500	[34mINFO[0m	go-tf-docker2/main.go:59	Establishing connection to PG.
+2024-04-25T12:43:55.157-0500	[34mINFO[0m	go-tf-docker2/main.go:160	Initializing router.
+2024-04-25T12:43:59.499-0500	[34mINFO[0m	go-tf-docker2/main.go:98	Establishing connection to PG.
+2024-04-25T12:43:59.507-0500	[34mINFO[0m	go-tf-docker2/main.go:120	successfully created record.
+2024-04-25T12:43:59.507-0500	[34mINFO[0m	go-tf-docker2/main.go:121	Record that was added:	{"Pet Name:": "wer", "Pet Age:": "23", "Pet Species:": "dorg"}

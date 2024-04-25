@@ -3,14 +3,14 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	"net/http"
-	"os"
-
 	"github.com/gin-gonic/gin"
 	"github.com/gustavonlorenzo/loggerator"
 	_ "github.com/lib/pq"
 	"go.uber.org/zap"
 	"gopkg.in/yaml.v2"
+	"net/http"
+	"os"
+	"strconv"
 )
 
 type postgres struct {
@@ -118,6 +118,7 @@ func addRecord(g *gin.Context) {
 	}
 
 	l.Info("successfully created record.")
+	l.Sugar().Infow("Record that was added:", "Pet Name:", pet.Name, "Pet Age:", strconv.Itoa(pet.Age), "Pet Species:", pet.Species)
 	g.IndentedJSON(http.StatusCreated, pet)
 }
 
