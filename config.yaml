@@ -1,0 +1,6 @@
+postgres:
+  username: "pets_user"
+  host: "172.18.62.115"
+  password: "12345"
+  port: 5432
+  dbname: pets

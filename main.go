@@ -3,13 +3,14 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"net/http"
+	"os"
+
 	"github.com/gin-gonic/gin"
 	"github.com/gustavonlorenzo/loggerator"
 	_ "github.com/lib/pq"
+	"go.uber.org/zap"
 	"gopkg.in/yaml.v2"
-	"log"
-	"net/http"
-	"os"
 )
 
 type postgres struct {
@@ -32,28 +33,33 @@ type pet struct {
 
 func (c *conn) getConf() *conn {
 
-	yamlFile, err := os.ReadFile("./infra/config.yaml")
+	yamlFile, err := os.ReadFile("config.yaml")
 	if err != nil {
-		log.Fatalf("Failed to read YAML file: %v", err)
+		l.Error("Failed to read YAML file.")
+		panic(err)
 	}
 
 	err = yaml.Unmarshal(yamlFile, c)
 	if err != nil {
-		log.Fatalf("Failed to Unmarshal file: %v", err)
+		l.Error("Failed to Unmarshal file.")
+		panic(err)
 	}
 
 	return c
 }
 
-func getPets() []pet {
+func getPets(g *gin.Context) {
 	var c conn
 	c.getConf()
 
 	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+"password=%s dbname=%s sslmode=disable", c.Postgres.Host, c.Postgres.Port, c.Postgres.Username, c.Postgres.Password, c.Postgres.Dbname)
 
 	db, err := sql.Open("postgres", psqlInfo)
+
+	l.Info("Establishing connection to PG.")
 	if err != nil {
-		log.Fatalf("error establishing connection to pg backend.")
+		l.Info("Error establishing connection to pg backend.")
+		panic(err)
 	}
 
 	defer db.Close()
@@ -66,18 +72,18 @@ func getPets() []pet {
 	rows, err := db.Query(sqlStatement)
 
 	if err != nil {
-		log.Fatalf("Invalid query statement")
+		l.Error("Invalid query.")
 	}
 
 	for rows.Next() {
 		err = rows.Scan(&id, &p.Name, &p.Age, &p.Species)
 		if err != nil {
-			log.Fatalf("Invalid data returned.")
+			fmt.Println("Invalid data returned.")
 		}
 		allPet = append(allPet, pet{Name: p.Name, Age: p.Age, Species: p.Species})
 	}
 
-	return allPet
+	g.IndentedJSON(http.StatusOK, allPet)
 
 }
 
@@ -88,8 +94,11 @@ func addRecord(g *gin.Context) {
 	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+"password=%s dbname=%s sslmode=disable", c.Postgres.Host, c.Postgres.Port, c.Postgres.Username, c.Postgres.Password, c.Postgres.Dbname)
 
 	db, err := sql.Open("postgres", psqlInfo)
+
+	l.Info("Establishing connection to PG.")
 	if err != nil {
-		log.Fatalf("error")
+		l.Error("Error establishing connection to pg backend.")
+		panic(err)
 	}
 
 	defer db.Close()
@@ -105,9 +114,10 @@ func addRecord(g *gin.Context) {
 
 	_, err = db.Exec(sqlStatement, pet.Name, pet.Age, pet.Species)
 	if err != nil {
-		log.Fatalf("error")
+		fmt.Println("error with query")
 	}
 
+	l.Info("successfully created record.")
 	g.IndentedJSON(http.StatusCreated, pet)
 }
 
@@ -119,8 +129,10 @@ func delRecord(g *gin.Context) {
 	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+"password=%s dbname=%s sslmode=disable", c.Postgres.Host, c.Postgres.Port, c.Postgres.Username, c.Postgres.Password, c.Postgres.Dbname)
 
 	db, err := sql.Open("postgres", psqlInfo)
+	l.Info("Establishing connection to PG.")
 	if err != nil {
-		log.Fatalf("error")
+		l.Error("Error establishing connection to pg backend.")
+		panic(err)
 	}
 
 	defer db.Close()
@@ -135,24 +147,19 @@ func delRecord(g *gin.Context) {
 
 	_, err = db.Exec(sqlStatement, pet.Name)
 	if err != nil {
-		log.Fatalf("error")
+		l.Error("Error deleting pet.")
 	}
 
 	g.IndentedJSON(http.StatusOK, pet)
-	// http.StatusAccepted
 }
 
+var l *zap.Logger = loggerator.InitializeLogger()
+
 func main() {
+	l.Info("Initializing router.")
 	router := gin.Default()
 
-	router.LoadHTMLGlob("layout.html")
-
-	router.GET("/pets", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "layout.html", gin.H{
-			"Title": "PETS",
-			"Items": getPets(),
-		})
-	})
+	router.GET("/pets", getPets)
 	router.POST("/pets", addRecord)
 	router.POST("/pets/remove", delRecord)
 
